@@ -9,8 +9,6 @@ class Program
         int number;
 
         Console.WriteLine("Enter a list of numbers, type 0 when finished.");
-
-        // Input loop
         do
         {
             Console.Write("Enter number: ");
@@ -21,21 +19,17 @@ class Program
             {
                 numbers.Add(number);
             }
-
         } while (number != 0);
 
-        // Calculate sum
+        // Core Requirements
         int sum = 0;
         foreach (int num in numbers)
         {
             sum += num;
         }
-
-        // Calculate average
         float average = (float)sum / numbers.Count;
+        int max = int.MinValue;
 
-        // Find max number
-        int max = numbers[0];
         foreach (int num in numbers)
         {
             if (num > max)
@@ -48,7 +42,7 @@ class Program
         Console.WriteLine($"The average is: {average}");
         Console.WriteLine($"The largest number is: {max}");
 
-        // Stretch 1: Find smallest positive number
+        // Stretch Challenge 1: Find smallest positive number
         int smallestPositive = int.MaxValue;
         foreach (int num in numbers)
         {
@@ -63,12 +57,12 @@ class Program
             Console.WriteLine($"The smallest positive number is: {smallestPositive}");
         }
 
-        // Stretch 2: Sort and display list
+        // Stretch Challenge 2: Sort and display list
         numbers.Sort();
         Console.WriteLine("The sorted list is:");
         foreach (int num in numbers)
         {
-            Console.Wri
+            Console.WriteLine(num);
         }
     }
 }
