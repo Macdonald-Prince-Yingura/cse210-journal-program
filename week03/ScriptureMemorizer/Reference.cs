@@ -5,23 +5,27 @@ public class Reference
     private int _startVerse;
     private int _endVerse;
 
-    public Reference(string referenceText)
+    public Reference(string book, int chapter, int verse)
     {
-        // Example: Proverbs 3:5-6 or John 3:16
-        var parts = referenceText.Split(' ');
-        _book = parts[0];
-        var verseParts = parts[1].Split(':');
-        _chapter = int.Parse(verseParts[0]);
-
-        var verseRange = verseParts[1].Split('-');
-        _startVerse = int.Parse(verseRange[0]);
-        _endVerse = verseRange.Length > 1 ? int.Parse(verseRange[1]) : _startVerse;
+        _book = book;
+        _chapter = chapter;
+        _startVerse = verse;
+        _endVerse = verse;
     }
 
-    public override string ToString()
+    public Reference(string book, int chapter, int startVerse, int endVerse)
     {
-        return _startVerse == _endVerse ?
-            $"{_book} {_chapter}:{_startVerse}" :
-            $"{_book} {_chapter}:{_startVerse}-{_endVerse}";
+        _book = book;
+        _chapter = chapter;
+        _startVerse = startVerse;
+        _endVerse = endVerse;
+    }
+
+    public string GetDisplayText()
+    {
+        if (_startVerse == _endVerse)
+            return $"{_book} {_chapter}:{_startVerse}";
+        else
+            return $"{_book} {_chapter}:{_startVerse}-{_endVerse}";
     }
 }

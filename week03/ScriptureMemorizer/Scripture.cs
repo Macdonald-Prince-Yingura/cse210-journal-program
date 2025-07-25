@@ -5,7 +5,6 @@ public class Scripture
 {
     private Reference _reference;
     private List<Word> _words;
-    private Random _random;
 
     public Scripture(Reference reference, string text)
     {
@@ -15,38 +14,45 @@ public class Scripture
         {
             _words.Add(new Word(word));
         }
-        _random = new Random();
     }
 
     public void HideRandomWords(int count)
     {
-        List<Word> visibleWords = _words.FindAll(w => !w.IsHidden());
+        Random rand = new Random();
+        int hidden = 0;
+        List<int> visibleIndices = new List<int>();
 
-        if (visibleWords.Count == 0) return;
-
-        for (int i = 0; i < count && visibleWords.Count > 0; i++)
+        for (int i = 0; i < _words.Count; i++)
         {
-            int index = _random.Next(visibleWords.Count);
-            visibleWords[index].Hide();
-            visibleWords.RemoveAt(index);
+            if (!_words[i].IsHidden())
+                visibleIndices.Add(i);
+        }
+
+        while (hidden < count && visibleIndices.Count > 0)
+        {
+            int index = rand.Next(visibleIndices.Count);
+            _words[visibleIndices[index]].Hide();
+            visibleIndices.RemoveAt(index);
+            hidden++;
         }
     }
 
     public string GetDisplayText()
     {
-        string text = _reference.ToString() + " - ";
+        List<string> displayWords = new List<string>();
         foreach (Word word in _words)
         {
-            text += word.GetDisplayText() + " ";
+            displayWords.Add(word.GetDisplayText());
         }
-        return text.Trim();
+        return $"{_reference.GetDisplayText()}\n{string.Join(" ", displayWords)}";
     }
 
-    public bool AllWordsHidden()
+    public bool IsCompletelyHidden()
     {
         foreach (Word word in _words)
         {
-            if (!word.IsHidden()) return false;
+            if (!word.IsHidden())
+                return false;
         }
         return true;
     }
